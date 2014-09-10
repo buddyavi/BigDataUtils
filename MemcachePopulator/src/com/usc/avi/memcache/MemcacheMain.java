@@ -17,7 +17,7 @@ import com.usc.avi.memcache.daoimpl.MysqlToMemcache;
 import com.usc.avi.memcache.util.MemcachePropertiesLoader;
 
 /**
- * Class for populating memcache with varible to data type mapping
+ * Class for populating memcache with varible to data mapping
  * 
  */
 
@@ -43,6 +43,11 @@ public class MemcacheMain {
 					prop.getProperty(Constants.MEMCACHE_HOST_PRIMARY),
 					Integer.parseInt(prop
 							.getProperty(Constants.MEMCACHE_PORT_PRIMARY))));
+			if(c.getAvailableServers().isEmpty()){
+				logger.error("No memcache server defined!!");
+				System.exit(1);
+
+			}
 			logger.info("populating memcache");
 			for (String s : keys) {
 				c.set(s, 2592000, dataMap.get(s));
@@ -57,7 +62,14 @@ public class MemcacheMain {
 			c.shutdown();
 		} catch (IOException e) {
 
-			e.printStackTrace();
+			logger.error("IOException:" + e);
+			System.exit(1);
+
+		} catch (Exception e) {
+
+			logger.error("Exception:" + e);
+			System.exit(1);
+
 		}
 		logger.info("Memcache population Completed");
 		System.out.println("Memcache Population Complete!!!!");
