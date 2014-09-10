@@ -42,11 +42,17 @@ public class MySqlConnection {
 					prop.getProperty(Constants.MYSQL_USER),
 					prop.getProperty(Constants.MYSQL_PASSWORD));
 		} catch (ClassNotFoundException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			logger.error("ClassNotFoundException:"+e);
+			System.exit(1);
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			logger.error("SQLException:"+e);
+			System.exit(1);
+
+		}
+		catch (Exception e) {
+			logger.error("Exception:"+e);
+			System.exit(1);
+
 		}
 		return connection;
 
